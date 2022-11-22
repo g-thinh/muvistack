@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@clerk/nextjs": "^4.6.1",
     "@emotion/react": "^11.10.5",
     "@emotion/server": "^11.10.0",
     "@mantine/core": "^5.8.2",
@@ -22,6 +23,8 @@
     "next": "13.0.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "svix": "^0.70.0",
     "typescript": "4.9.3"
-  }
+  },
+  "devDependencies": {}
 }
