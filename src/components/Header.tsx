@@ -1,9 +1,9 @@
-import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
-import { Box, Button, Flex, Title, NavLink } from "@mantine/core";
-import { NextLink } from "@mantine/next";
+import { SignedIn, SignedOut, UserButton, useUser } from "@clerk/nextjs";
+import { Box, Button, Flex, Text, Title } from "@mantine/core";
 import Link from "next/link";
 
 export default function Header() {
+  const { isLoaded, isSignedIn, user } = useUser();
   return (
     <Box component="header">
       <Flex justify="space-between" p={12} align="center">
@@ -21,7 +21,10 @@ export default function Header() {
           <Title>Muvistack</Title>
         </Box>
         <SignedIn>
-          <UserButton />
+          <Flex align="center" gap={12}>
+            {isLoaded && isSignedIn && <Text>Hello, {user.fullName}</Text>}
+            <UserButton />
+          </Flex>
         </SignedIn>
         <SignedOut>
           <Button component={Link} href="/sign-in">
