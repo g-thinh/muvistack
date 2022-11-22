@@ -1,33 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { Webhook, WebhookUnbrandedRequiredHeaders } from "svix";
+import { ClerkPayload, CreatedUserData, DeletedUserData } from "types/clerk";
+import isClerkEvent from "utils/is-clerk";
+import { createNewUser, deleteUser } from "../../prisma/create-new-user";
 
 const secret = process.env.clerkWebhookSecret as string;
-
-const CLERK_SUBSCRIBED_EVENT_TYPES = ["user.created", "svix.ping"] as const;
-type EventType = typeof CLERK_SUBSCRIBED_EVENT_TYPES[number];
-
-interface Payload<T = {}> {
-  data: Record<any, any> | T;
-  object: "event";
-  event_type?: string;
-  type: EventType;
-}
-
-function isClerkEvent(eventType: string): eventType is EventType {
-  return (
-    typeof eventType === "string" &&
-    CLERK_SUBSCRIBED_EVENT_TYPES.includes(eventType as EventType)
-  );
-}
-
-async function handleWebhook(message: Payload) {
-  if (isClerkEvent(message.type ?? message?.event_type)) {
-    console.log("this is a valid type", message.type);
-  } else {
-    console.log("invalid type", message.type);
-  }
-  console.log(message);
-}
 
 export default async function handler(
   req: NextApiRequest,
@@ -39,15 +16,28 @@ export default async function handler(
 
   //validate the webhook
   try {
-    const verifiedPayload = webhook.verify(payload, headers) as Payload;
+    const verifiedPayload = webhook.verify(payload, headers) as ClerkPayload;
 
-    await handleWebhook(verifiedPayload);
+    if (isClerkEvent(verifiedPayload.type ?? verifiedPayload?.event_type)) {
+      switch (verifiedPayload.type) {
+        case "user.created": {
+          await createNewUser(verifiedPayload as ClerkPayload<CreatedUserData>);
+          break;
+        }
+        case "user.deleted": {
+          await deleteUser(verifiedPayload as ClerkPayload<DeletedUserData>);
+          break;
+        }
+        default:
+          break;
+      }
+    }
 
-    res.status(200).json({
-      message: `successfully processed ${verifiedPayload.event_type}`,
+    return res.status(200).json({
+      message: `successfully processed ${verifiedPayload?.type}`,
     });
   } catch (error) {
-    res.status(400).json(error);
+    return res.status(400).json(error);
   }
 }
 
