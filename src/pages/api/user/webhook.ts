@@ -2,10 +2,10 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { Webhook, WebhookUnbrandedRequiredHeaders } from "svix";
 import { ClerkPayload, CreatedUserData, DeletedUserData } from "types/clerk";
 import isClerkEvent from "utils/is-clerk";
-import { createNewUser, deleteUser } from "@src/prisma/user";
-import withExceptionFilter from "@src/utils/with-exception-filter";
+import { createNewUser, deleteUser } from "utils/prisma/user";
+import withExceptionFilter from "utils/with-exception-filter";
 import { ApiError } from "next/dist/server/api-utils";
-import HttpStatusCode from "@src/types/http-status-code";
+import HttpStatusCode from "types/http-status-code";
 import { AxiomAPIRequest } from "next-axiom/dist/withAxiom";
 
 const secret = process.env.clerkWebhookSecret as string;
