@@ -1,5 +1,7 @@
+const { withAxiom } = require("next-axiom");
+
 /** @type {import('next').NextConfig} */
-const nextConfig = {
+const nextConfig = withAxiom({
   reactStrictMode: true,
   swcMinify: true,
   env: {
@@ -8,6 +10,6 @@ const nextConfig = {
     clerkJwtKey: process.env.CLERK_JWT_KEY,
     clerkWebhookSecret: process.env.SVIX_SECRET,
   },
-};
+});
 
 module.exports = nextConfig;

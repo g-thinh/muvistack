@@ -1,6 +1,8 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextApiResponse } from "next";
+import { withAxiom } from "next-axiom";
+import { AxiomAPIRequest } from "next-axiom/dist/withAxiom";
 
-type Middleware = (req: NextApiRequest, res: NextApiResponse) => unknown;
+type Middleware = (req: AxiomAPIRequest, res: NextApiResponse) => unknown;
 
 /**
  * @name withMiddleware
@@ -9,8 +11,8 @@ type Middleware = (req: NextApiRequest, res: NextApiResponse) => unknown;
  * @param middlewares
  */
 export function withMiddleware(...middlewares: Middleware[]) {
-  return async function withMiddlewareHandler(
-    req: NextApiRequest,
+  return withAxiom(async function withMiddlewareHandler(
+    req: AxiomAPIRequest,
     res: NextApiResponse
   ) {
     async function evaluateHandler(
@@ -49,5 +51,5 @@ export function withMiddleware(...middlewares: Middleware[]) {
 
       await evaluateHandler(middleware, nextMiddleware);
     }
-  };
+  });
 }

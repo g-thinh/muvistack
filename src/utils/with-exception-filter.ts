@@ -1,12 +1,17 @@
 import { getAuth } from "@clerk/nextjs/server";
-import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
+import { NextApiHandler, NextApiResponse } from "next";
+import { withAxiom } from "next-axiom";
+import { AxiomAPIRequest } from "next-axiom/dist/withAxiom";
 import {
   getExceptionMessage,
   getExceptionStack,
   getExceptionStatus,
 } from "./get-exception";
 
-export function withExceptionFilter(req: NextApiRequest, res: NextApiResponse) {
+export default withAxiom(function withExceptionFilter(
+  req: AxiomAPIRequest,
+  res: NextApiResponse
+) {
   return async function (handler: NextApiHandler) {
     try {
       await handler(req, res);
@@ -34,10 +39,10 @@ export function withExceptionFilter(req: NextApiRequest, res: NextApiResponse) {
 
       const exceptionMessage = "An unhandled exception occurred.";
 
-      console.error(requestContext, exceptionMessage);
+      req.log.error(exceptionMessage, requestContext);
 
       if (stack) {
-        console.debug(stack);
+        req.log.debug("stack", stack);
       }
 
       const timestamp = new Date().toISOString();
@@ -51,4 +56,4 @@ export function withExceptionFilter(req: NextApiRequest, res: NextApiResponse) {
       return res.status(statusCode).send(responseBody);
     }
   };
-}
+});

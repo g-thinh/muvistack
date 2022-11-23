@@ -3,9 +3,10 @@ import { Webhook, WebhookUnbrandedRequiredHeaders } from "svix";
 import { ClerkPayload, CreatedUserData, DeletedUserData } from "types/clerk";
 import isClerkEvent from "utils/is-clerk";
 import { createNewUser, deleteUser } from "@src/prisma/user";
-import { withExceptionFilter } from "@src/utils/with-exception.filter";
+import withExceptionFilter from "@src/utils/with-exception-filter";
 import { ApiError } from "next/dist/server/api-utils";
 import HttpStatusCode from "@src/types/http-status-code";
+import { AxiomAPIRequest } from "next-axiom/dist/withAxiom";
 
 const secret = process.env.clerkWebhookSecret as string;
 
@@ -60,7 +61,7 @@ export const config = {
 };
 
 export default function userApiHandler(
-  req: NextApiRequest,
+  req: AxiomAPIRequest,
   res: NextApiResponse
 ) {
   return withExceptionFilter(req, res)(userWebhookHandler);
