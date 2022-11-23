@@ -21,7 +21,7 @@ export async function createNewUser(message: ClerkPayload<CreatedUserData>) {
         createdAt: new Date(message.data.created_at),
       },
     })
-    .catch((error) => console.error("prisma error", error));
+    .catch((error: unknown) => console.error("prisma error", error));
 }
 
 /**
@@ -36,5 +36,5 @@ export async function deleteUser(message: ClerkPayload<DeletedUserData>) {
         id: message.data.id,
       },
     })
-    .catch((error) => console.error("prisma error", error));
+    .catch((error: unknown) => console.error("prisma error", error));
 }
