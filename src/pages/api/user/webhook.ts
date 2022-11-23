@@ -2,23 +2,21 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { Webhook, WebhookUnbrandedRequiredHeaders } from "svix";
 import { ClerkPayload, CreatedUserData, DeletedUserData } from "types/clerk";
 import isClerkEvent from "utils/is-clerk";
-import { createNewUser, deleteUser } from "../../../prisma/create-new-user";
+import { createNewUser, deleteUser } from "@src/prisma/user";
+import { withExceptionFilter } from "@src/utils/with-exception.filter";
+import { ApiError } from "next/dist/server/api-utils";
+import HttpStatusCode from "@src/types/http-status-code";
 
 const secret = process.env.clerkWebhookSecret as string;
 
 /**
- * Middleware handler for incoming webhook requests for user-related events from Clerk.
- * See more {@link https://clerk.dev/docs/integration/webhooks here}.
- *
+ * @name userWebhookHandler
+ * @description handle incoming webhook requests for user-related events from Clerk. See more {@link https://clerk.dev/docs/integration/webhooks here}.
  * @remarks webhook signature is verified by {@link https://docs.svix.com/receiving/verifying-payloads/how Svix}
- * @param req Next API request
- * @param res Next API response
- *
+ * @param req
+ * @param res
  */
-export default async function userWebhookHandler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+async function userWebhookHandler(req: NextApiRequest, res: NextApiResponse) {
   const payload = JSON.stringify(req.body);
   const headers = req.headers as unknown as WebhookUnbrandedRequiredHeaders;
   const webhook = new Webhook(secret);
@@ -48,7 +46,10 @@ export default async function userWebhookHandler(
       }`,
     });
   } catch (error) {
-    return res.status(400).json(error);
+    throw new ApiError(
+      HttpStatusCode.FORBIDDEN,
+      "User does not have permission handle webhook request."
+    );
   }
 }
 
@@ -57,3 +58,10 @@ export const config = {
     bodyParse: false,
   },
 };
+
+export default function userApiHandler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  return withExceptionFilter(req, res)(userWebhookHandler);
+}
