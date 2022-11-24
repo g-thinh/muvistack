@@ -1,7 +1,13 @@
 import { SignIn } from "@clerk/nextjs";
 import { Container } from "@mantine/core";
+import { useRouter } from "next/router";
 
 export default function SignInPage() {
+  const { query } = useRouter();
+
+  const redirectUrl = query.redirect_url as string;
+
+  console.log("my redirect url", redirectUrl);
   return (
     <Container
       sx={{
@@ -13,7 +19,7 @@ export default function SignInPage() {
         path="/sign-in"
         routing="path"
         signUpUrl="/sign-up"
-        redirectUrl="/"
+        redirectUrl={redirectUrl ?? "/"}
       />
     </Container>
   );

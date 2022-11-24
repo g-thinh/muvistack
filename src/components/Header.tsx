@@ -23,7 +23,7 @@ export default function Header() {
         <SignedIn>
           <Flex align="center" gap={12}>
             {isLoaded && isSignedIn && <Text>Hello, {user.fullName}</Text>}
-            <UserButton />
+            <UserButton afterSignOutUrl="/" />
           </Flex>
         </SignedIn>
         <SignedOut>
