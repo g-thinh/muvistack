@@ -9,6 +9,7 @@ const nextConfig = withAxiom({
     clerkApiKey: process.env.CLERK_API_KEY,
     clerkJwtKey: process.env.CLERK_JWT_KEY,
     clerkWebhookSecret: process.env.SVIX_SECRET,
+    sentryDsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
   },
 });
 

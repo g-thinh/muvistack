@@ -1,4 +1,4 @@
-import HttpStatusCode from "@src/types/http-status-code";
+import HttpStatusCode from "types/http-status-code";
 import { ApiError } from "next/dist/server/api-utils";
 
 export function isError(exception: unknown): exception is Error {
