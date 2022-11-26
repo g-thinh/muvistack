@@ -2353,6 +2353,13 @@ natural-compare@^1.4.0:
   resolved "https://registry.yarnpkg.com/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
   integrity sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==
 
+next-api-decorators@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/next-api-decorators/-/next-api-decorators-2.0.0.tgz#ae193f6f820279f3f874ec956a08d9e589d50f4a"
+  integrity sha512-7JJzps6Ym46rkOyL0BsACMTX0WFh4NLFd0h10uAza4HO7o7W6lyDeINJ8jAOJNUcZnNucZVd6SxiKZsPIlnvBg==
+  dependencies:
+    reflect-metadata "^0.1.13"
+
 next-axiom@^0.15.1:
   version "0.15.1"
   resolved "https://registry.yarnpkg.com/next-axiom/-/next-axiom-0.15.1.tgz#841a58c90030db21d3fd71f26e8feda5278332f3"
@@ -2698,6 +2705,11 @@ readable-stream@~1.0.17, readable-stream@~1.0.27-1:
     inherits "~2.0.1"
     isarray "0.0.1"
     string_decoder "~0.10.x"
+
+reflect-metadata@^0.1.13:
+  version "0.1.13"
+  resolved "https://registry.yarnpkg.com/reflect-metadata/-/reflect-metadata-0.1.13.tgz#67ae3ca57c972a2aa1642b10fe363fe32d49dc08"
+  integrity sha512-Ts1Y/anZELhSsjMcU605fU9RE4Oi3p5ORujwbIKXfWa+0Zxs510Qrmrce5/Jowq3cHSZSJqBjypxmHarc+vEWg==
 
 regenerator-runtime@^0.13.10:
   version "0.13.11"

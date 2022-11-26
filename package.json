@@ -7,9 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prisma:studio": "npx prisma studio --schema=./src/prisma/schema.prisma",
-    "prisma:generate": "npx prisma generate --schema=./src/prisma/schema.prisma",
-    "prisma:push": "npx prisma db push --schema=./src/prisma/schema.prisma"
+    "prisma:studio": "npx prisma studio",
+    "prisma:generate": "npx prisma generate",
+    "prisma:push": "npx prisma db push"
   },
   "dependencies": {
     "@clerk/nextjs": "^4.6.1",
@@ -25,6 +25,7 @@
     "eslint": "8.28.0",
     "eslint-config-next": "13.0.4",
     "next": "13.0.4",
+    "next-api-decorators": "^2.0.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "svix": "^0.70.0",
