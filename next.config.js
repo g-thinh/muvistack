@@ -1,7 +1,7 @@
-const { withAxiom } = require("next-axiom");
+const { withSentryConfig } = require("@sentry/nextjs");
 
 /** @type {import('next').NextConfig} */
-const nextConfig = withAxiom({
+const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   env: {
@@ -9,8 +9,30 @@ const nextConfig = withAxiom({
     clerkApiKey: process.env.CLERK_API_KEY,
     clerkJwtKey: process.env.CLERK_JWT_KEY,
     clerkWebhookSecret: process.env.SVIX_SECRET,
-    sentryDsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
+    sentryClientDsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
+    sentryServerDsn: process.env.SENTRY_DSN,
   },
-});
+  sentry: {
+    // Use `hidden-source-map` rather than `source-map` as the Webpack `devtool`
+    // for client-side builds. (This will be the default starting in
+    // `@sentry/nextjs` version 8.0.0.) See
+    // https://webpack.js.org/configuration/devtool/ and
+    // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/#use-hidden-source-map
+    // for more information.
+    hideSourceMaps: true,
+  },
+};
 
-module.exports = nextConfig;
+const sentryWebpackPluginOptions = {
+  // Additional config options for the Sentry Webpack plugin. Keep in mind that
+  // the following options are set automatically, and overriding them is not
+  // recommended:
+  //   release, url, org, project, authToken, configFile, stripPrefix,
+  //   urlPrefix, include, ignore
+
+  silent: true, // Suppresses all logs
+  // For all available options, see:
+  // https://github.com/getsentry/sentry-webpack-plugin#options.
+};
+
+module.exports = withSentryConfig(nextConfig, sentryWebpackPluginOptions);
