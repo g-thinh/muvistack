@@ -9,18 +9,18 @@ import { isPublic } from "config/routes";
  * @see {@link https://nextjs.org/docs/advanced-features/middleware Next.js - Middleware}
  */
 function middleware(req: NextRequest) {
-  // if (isPublic(req.nextUrl.pathname)) {
-  //   return NextResponse.next();
-  // }
+  if (isPublic(req.nextUrl.pathname)) {
+    return NextResponse.next();
+  }
 
-  // const { userId } = getAuth(req);
+  const { userId } = getAuth(req);
 
-  // //if the user is not authenticated then redirect them to sign-in
-  // if (!userId) {
-  //   const signInUrl = new URL("/sign-in", req.url);
-  //   signInUrl.searchParams.set("redirect_url", req.url);
-  //   return NextResponse.redirect(signInUrl);
-  // }
+  //if the user is not authenticated then redirect them to sign-in
+  if (!userId) {
+    const signInUrl = new URL("/sign-in", req.url);
+    signInUrl.searchParams.set("redirect_url", req.url);
+    return NextResponse.redirect(signInUrl);
+  }
 
   return NextResponse.next();
 }

@@ -1,4 +1,4 @@
-export const PUBLIC_PATHS = ["/", "/sign-in*", "/sign-up*"];
+export const PUBLIC_PATHS = ["/", "/sign-in*", "/sign-up*", "/api*"];
 
 /**
  * verifies if the url path is public

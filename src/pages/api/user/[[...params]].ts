@@ -1,14 +1,17 @@
 import { AuthGuard } from "middlewares/auth-guard";
 import { CatchException } from "middlewares/catch-exception";
+import { RoleGuard } from "middlewares/role-guard";
 import { createHandler, Delete, Get, Param } from "next-api-decorators";
 import { UserService } from "services/user-service";
 
 @AuthGuard()
+@RoleGuard(["ADMIN"])
 @CatchException()
 class UserHandler {
   constructor(private readonly userService: UserService) {
     this.userService = new UserService();
   }
+
   @Get()
   public listAll() {
     return this.userService.findAll();

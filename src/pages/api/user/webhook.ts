@@ -1,4 +1,3 @@
-import { AuthGuard } from "middlewares/auth-guard";
 import { CatchException } from "middlewares/catch-exception";
 import type { NextApiRequest, NextApiResponse } from "next";
 import {
@@ -20,11 +19,13 @@ const secret = process.env.clerkWebhookSecret as string;
  * @see {@link https://clerk.dev/docs/integration/webhooks Clerk Webhooks}.
  * @remarks webhook signature is verified by {@link https://docs.svix.com/receiving/verifying-payloads/how Svix}
  */
-@AuthGuard()
 @CatchException()
 class UserWebhookHandler {
-  @Post()
-  async handleWebhook(@Req() req: NextApiRequest, @Res() res: NextApiResponse) {
+  @Post("/webhook")
+  public async handleWebhook(
+    @Req() req: NextApiRequest,
+    @Res() res: NextApiResponse
+  ) {
     const payload = JSON.stringify(req.body);
     const headers = req.headers as unknown as WebhookUnbrandedRequiredHeaders;
     const webhook = new Webhook(secret);
