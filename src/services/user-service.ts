@@ -1,6 +1,6 @@
 import { BadRequestException, NotFoundException } from "next-api-decorators";
 import { ClerkPayload, CreatedUserData } from "types/clerk";
-import { prisma } from "utils/prisma/client";
+import { prisma } from "utils/prisma";
 
 /**
  * User service class with methods to interface with the User entity
