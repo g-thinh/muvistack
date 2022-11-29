@@ -7,10 +7,10 @@ import {
   Req,
   Res,
 } from "next-api-decorators";
+import { UserService } from "services/user-service";
 import { Webhook, WebhookUnbrandedRequiredHeaders } from "svix";
 import { ClerkPayload, CreatedUserData, DeletedUserData } from "types/clerk";
 import isClerkEvent from "utils/is-clerk";
-import { createNewUser, deleteUser } from "utils/prisma/user";
 
 const secret = process.env.clerkWebhookSecret as string;
 
@@ -21,11 +21,12 @@ const secret = process.env.clerkWebhookSecret as string;
  */
 @CatchException()
 class UserWebhookHandler {
+  constructor(private readonly userService: UserService) {
+    this.userService = new UserService();
+  }
+
   @Post("/webhook")
-  public async handleWebhook(
-    @Req() req: NextApiRequest,
-    @Res() res: NextApiResponse
-  ) {
+  async handleWebhook(@Req() req: NextApiRequest, @Res() res: NextApiResponse) {
     const payload = JSON.stringify(req.body);
     const headers = req.headers as unknown as WebhookUnbrandedRequiredHeaders;
     const webhook = new Webhook(secret);
@@ -37,13 +38,22 @@ class UserWebhookHandler {
       if (isClerkEvent(verifiedPayload.type ?? verifiedPayload?.event_type)) {
         switch (verifiedPayload.type) {
           case "user.created": {
-            await createNewUser(
+            await this.userService.create(
+              verifiedPayload as ClerkPayload<CreatedUserData>
+            );
+            break;
+          }
+          case "user.updated": {
+            await this.userService.update(
               verifiedPayload as ClerkPayload<CreatedUserData>
             );
             break;
           }
           case "user.deleted": {
-            await deleteUser(verifiedPayload as ClerkPayload<DeletedUserData>);
+            const {
+              data: { id },
+            } = verifiedPayload as ClerkPayload<DeletedUserData>;
+            await this.userService.removeById(id);
             break;
           }
           default:
