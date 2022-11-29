@@ -3,13 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "dotenv -e .env.local next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prisma:studio": "npx prisma studio",
-    "prisma:generate": "npx prisma generate",
-    "prisma:push": "npx prisma db push"
+    "prisma:studio": "dotenv -e .env.local npx prisma studio",
+    "prisma:generate": "dotenv -e .env.local npx prisma generate",
+    "prisma:push": "dotenv -e .env.local npx prisma db push",
+    "prisma:studio:main": "dotenv -e .env.production npx prisma studio",
+    "prisma:generate:main": "dotenv -e .env.production npx prisma generate",
+    "prisma:push:main": "dotenv -e .env.production npx prisma db push"
   },
   "dependencies": {
     "@clerk/nextjs": "^4.6.1",
@@ -35,6 +38,7 @@
     "typescript": "4.9.3"
   },
   "devDependencies": {
+    "dotenv-cli": "^6.0.0",
     "pino-pretty": "^9.1.1",
     "prisma": "^4.6.1"
   }

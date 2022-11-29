@@ -7,7 +7,6 @@ export default function SignInPage() {
 
   const redirectUrl = query.redirect_url as string;
 
-  console.log("my redirect url", redirectUrl);
   return (
     <Container
       sx={{
