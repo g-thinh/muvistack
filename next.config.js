@@ -5,12 +5,16 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   env: {
+    baseUrl: process.env.NEXT_PUBLIC_BASE_URL,
     clerkFrontendApiKey: process.env.NEXT_PUBLIC_CLERK_FRONTEND_API,
     clerkApiKey: process.env.CLERK_API_KEY,
     clerkJwtKey: process.env.CLERK_JWT_KEY,
     clerkWebhookSecret: process.env.SVIX_SECRET,
     sentryClientDsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
     sentryServerDsn: process.env.SENTRY_DSN,
+    ablyApiKey: process.env.ABLY_API_KEY,
+    apiRoot: process.env.API_ROOT,
+    ablyClientId: process.env.ABLY_CLIENT_ID,
   },
   sentry: {
     // Use `hidden-source-map` rather than `source-map` as the Webpack `devtool`
