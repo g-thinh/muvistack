@@ -32,14 +32,17 @@
     "eslint-config-next": "13.0.4",
     "next": "13.0.4",
     "next-api-decorators": "^2.0.0",
+    "next-swagger-doc": "^0.3.6",
     "path-to-regexp": "^6.2.1",
     "pino": "^8.7.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "svix": "^0.70.0",
+    "swagger-ui-react": "^4.15.5",
     "typescript": "4.9.3"
   },
   "devDependencies": {
+    "@types/swagger-ui-react": "^4.11.0",
     "dotenv-cli": "^6.0.0",
     "pino-pretty": "^9.1.1",
     "prisma": "^4.6.1"
