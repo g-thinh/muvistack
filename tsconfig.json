@@ -18,6 +18,14 @@
     "incremental": true,
     "baseUrl": "src"
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src", "prisma"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "src",
+    "prisma",
+    "__tests__",
+    "jest.setup.js"
+  ],
   "exclude": ["node_modules"]
 }
